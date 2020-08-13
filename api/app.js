@@ -36,7 +36,7 @@ app.use(morgan('dev'));
 //uses the stackoverflow thing
 app.use(jsonParser);
 
-// TODO setup your api routes here
+//api routes
 
 //set up authentication middleware 
 const authenticateUser = async (req, res, next) => {
