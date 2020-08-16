@@ -8,10 +8,11 @@ const {User, Course} = models;
 const auth = require('basic-auth');
 const bcryptjs = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const cors = require('cors');
+var cors = require('cors')
 
 //FROM STACKOVERFLOW https://stackoverflow.com/questions/9177049/express-js-req-body-undefined
 var bodyParser = require('body-parser')
+
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -19,9 +20,7 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
-// Enable all CORS Requests
-app.use(cors());
-
+app.use(cors())
 //FROM STACKOVERFLOW https://stackoverflow.com/questions/9177049/express-js-req-body-undefined
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -36,7 +35,7 @@ app.use(morgan('dev'));
 //uses the stackoverflow thing
 app.use(jsonParser);
 
-//api routes
+// TODO setup your api routes here
 
 //set up authentication middleware 
 const authenticateUser = async (req, res, next) => {
