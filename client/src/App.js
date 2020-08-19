@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 
-import CoursesList from './CoursesList'
+import Courses from './Courses'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
       </header>
-      <CoursesList />
+      <Courses />
     </div>
   );
 }
