@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
+import config from './config';
 
 export default class UserSignUp extends Component {
   state = {
-    name: '',
-    username: '',
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
     password: '',
     errors: [],
   }
 
   render() {
     const {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
       errors,
     } = this.state;
@@ -30,19 +33,26 @@ export default class UserSignUp extends Component {
             elements={() => (
               <React.Fragment>
                 <input 
-                  id="name" 
-                  name="name" 
+                  id="firstName" 
+                  name="firstName" 
                   type="text"
-                  value={name} 
+                  value={firstName} 
                   onChange={this.change} 
-                  placeholder="Name" />
+                  placeholder="First Name" />
                 <input 
-                  id="username" 
-                  name="username" 
+                  id="lastName" 
+                  name="lastName" 
                   type="text"
-                  value={username} 
+                  value={lastName} 
                   onChange={this.change} 
-                  placeholder="User Name" />
+                  placeholder="Last Name" />
+                <input 
+                  id="emailAddress" 
+                  name="emailAddress" 
+                  type="text"
+                  value={emailAddress} 
+                  onChange={this.change} 
+                  placeholder="Email Address" />
                 <input 
                   id="password" 
                   name="password"
@@ -60,39 +70,80 @@ export default class UserSignUp extends Component {
     );
   }
 
+  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
+    const url = config.apiBaseUrl + path;
+  
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    };
+
+    if (body !== null) {
+      options.body = JSON.stringify(body);
+    }
+
+    // Check if auth is required
+    if (requiresAuth) {    
+      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+    }
+
+    return fetch(url, options);
+  }
+
   change = (event) => {
-    const name = event.target.name;
+    const firstName = event.target.name;
     const value = event.target.value;
 
     this.setState(() => {
       return {
-        [name]: value
+        [firstName]: value
       };
     });
   }
 
+  async createUser(user) {
+    const response = await this.api('/users', 'POST', user);
+    if (response.status === 201) {
+      return [];
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.errors;
+      });
+    }
+    else {
+      throw new Error();
+    }
+  }
+
   submit = () => {
     const { context } = this.props;
-
+   
     const {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
     } = this.state; 
 
     // New user payload
     const user = {
-      name,
-      username,
+      firstName,
+      lastName,
+      emailAddress,
       password,
     };
-    context.data.createUser(user)
+
+    this.createUser(user)
       .then( errors => {
         if (errors.length) {
           this.setState({ errors });
         } else {
-          console.log(`${username} is successfully signed up and authenticated!`);
-          context.actions.signIn(username, password)
+          console.log(`${firstName} is successfully signed up and authenticated!`);
+          context.actions.signIn(emailAddress, password)
             .then(() => {
               this.props.history.push('/authenticated');    
             });

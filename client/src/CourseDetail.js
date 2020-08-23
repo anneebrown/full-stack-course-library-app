@@ -2,6 +2,7 @@
 //config
 import React, {Component} from 'react';
 import axios from 'axios';
+import ReactMarkdown from "react-markdown";
 
 //class or function declaration for the courses list, including export statement
 export default class CourseDetail extends Component {
@@ -33,6 +34,7 @@ export default class CourseDetail extends Component {
 
   render() {
     console.log(this.state.course)
+    //let materialsSource = `<li>${this.state.course.materialsNeeded}</li>`;
     return (
       <div className="bounds">
               <div>
@@ -63,6 +65,7 @@ export default class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
+                    {/* <ReactMarkdown source={materialsSource} /> */}
                     <li>{this.state.course.materialsNeeded}</li>
                   </ul>
                 </li>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 import Data from './Data';
+import config from './config';
 
 export default class CreateCourse extends Component {
   state = {
@@ -68,14 +69,52 @@ export default class CreateCourse extends Component {
   }
 
   change = (event) => {
-    const name = event.target.name;
+    const title = event.target.title;
     const value = event.target.value;
 
     this.setState(() => {
       return {
-        [name]: value
+        [title]: value
       };
     });
+  }
+
+  async createCourse(course) {
+    const response = await this.api('/courses', 'POST', course);
+    if (response.status === 201) {
+      return [];
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.errors;
+      });
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
+    const url = config.apiBaseUrl + path;
+  
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    };
+
+    if (body !== null) {
+      options.body = JSON.stringify(body);
+    }
+
+    // Check if auth is required
+    if (requiresAuth) {    
+      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+    }
+
+    return fetch(url, options);
   }
 
   submit = () => {
@@ -96,23 +135,23 @@ export default class CreateCourse extends Component {
       materialsNeeded
     };
 
-    Data.createCourse(course)
-      .then( errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        } else {
-          console.log(`${course} was successfully created!`);
-          //context.actions.signIn(username, password)
-            // .then(() => {
-            //   this.props.history.push('/authenticated');    
-            // });
-        }
-      })  
-      .catch( err => { // handle rejected promises
-        console.log(err);
-        this.props.history.push('/error'); // push to history stack
-      });
+    this.createCourse(course)
+    .then( errors => {
+    if (errors.length) {
+        this.setState({ errors });
+    } else {
+        console.log('course successfully created')
+        // .then(() => {
+        //     this.props.history.push('/authenticated');    
+        // });
+    }
+    })  
+    .catch( err => { // handle rejected promises
+    console.log(err);
+    this.props.history.push('/error'); // push to history stack
+    });
   }
+
 
   cancel = () => {
     this.props.history.push('/');
