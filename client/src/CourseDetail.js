@@ -2,7 +2,7 @@
 //config
 import React, {Component} from 'react';
 import axios from 'axios';
-import ReactMarkdown from "react-markdown";
+//import ReactMarkdown from "react-markdown";
 
 //class or function declaration for the courses list, including export statement
 export default class CourseDetail extends Component {

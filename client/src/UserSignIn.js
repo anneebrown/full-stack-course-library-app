@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
-import config from './config';
+//import config from './config';
 
 export default class UserSignIn extends Component {
   state = {
@@ -63,61 +63,12 @@ export default class UserSignIn extends Component {
     });
   }
 
-  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-    const url = config.apiBaseUrl + path;
-  
-    const options = {
-      method,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    };
-
-    if (body !== null) {
-      options.body = JSON.stringify(body);
-    }
-
-    // Check if auth is required
-    if (requiresAuth) {    
-      const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
-      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
-    }
-
-    return fetch(url, options);
-  }
-
-  async getUser(emailAddress, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
-    if (response.status === 200) {
-      return response.json().then(data => data);
-    }
-    else if (response.status === 401) {
-      return null;
-    }
-    else {
-      throw new Error();
-    }
-  }
-
-  signIn = async (emailAddress, password) => {
-    const user = await this.getUser(emailAddress, password);
-    if (user !== null) {
-      this.setState(() => {
-        return {
-          authenticatedUser: user,
-        };
-      });
-      // Set cookie
-      //Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1});
-    }
-    return user;
-  }
 
   submit = () => {
     const { context } = this.props;
-    const { emailAddress, password } = this.state;
+    const { username, password } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    this.signIn(emailAddress, password)
+    context.actions.signIn(username, password)
       .then( user => {
         if (user === null) {
           this.setState(() => {
@@ -125,7 +76,7 @@ export default class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          console.log(`SUCCESS! ${emailAddress} is now signed in!`);
+          console.log(`SUCCESS! ${username} is now signed in!`);
         }
       })
       .catch( err => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
-import config from './config';
+//import config from './config';
 
 export default class UserSignUp extends Component {
   state = {
@@ -70,29 +70,6 @@ export default class UserSignUp extends Component {
     );
   }
 
-  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-    const url = config.apiBaseUrl + path;
-  
-    const options = {
-      method,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    };
-
-    if (body !== null) {
-      options.body = JSON.stringify(body);
-    }
-
-    // Check if auth is required
-    if (requiresAuth) {    
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
-      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
-    }
-
-    return fetch(url, options);
-  }
-
   change = (event) => {
     const firstName = event.target.name;
     const value = event.target.value;
@@ -102,21 +79,6 @@ export default class UserSignUp extends Component {
         [firstName]: value
       };
     });
-  }
-
-  async createUser(user) {
-    const response = await this.api('/users', 'POST', user);
-    if (response.status === 201) {
-      return [];
-    }
-    else if (response.status === 400) {
-      return response.json().then(data => {
-        return data.errors;
-      });
-    }
-    else {
-      throw new Error();
-    }
   }
 
   submit = () => {
@@ -137,7 +99,7 @@ export default class UserSignUp extends Component {
       password,
     };
 
-    this.createUser(user)
+    context.data.createUser(user)
       .then( errors => {
         if (errors.length) {
           this.setState({ errors });
@@ -145,7 +107,7 @@ export default class UserSignUp extends Component {
           console.log(`${firstName} is successfully signed up and authenticated!`);
           context.actions.signIn(emailAddress, password)
             .then(() => {
-              this.props.history.push('/authenticated');    
+              this.props.history.push('/');    
             });
         }
       })  

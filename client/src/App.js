@@ -12,20 +12,24 @@ import UserSignIn from './UserSignIn';
 import withContext from './Context';
 
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
+const HeaderWithContext = withContext(Header);
+const CreateCourseWithContext = withContext(CreateCourse);
+const CourseDetailWithContext = withContext(CourseDetail);
 
 function App() {
   return (
     <BrowserRouter>
     <div className="App">
       <header className="App-header">
-      <Header />
+      <HeaderWithContext />
       </header>
       <Switch>
         <Route exact path="/" component={Courses} />
-        <Route exact path="/courses/create" component={CreateCourse} />
-        <Route exact path="/courses/:id" component={CourseDetail} />
+        <Route exact path="/courses/create" component={CreateCourseWithContext} />
+        <Route exact path="/courses/:id" component={CourseDetailWithContext} />
         <Route exact path="/signup" component={UserSignUpWithContext} />
-        <Route exact path="/signin" component={UserSignIn} />
+        <Route exact path="/signin" component={UserSignInWithContext} />
         <Route component={NotFound} />
       </Switch>
     </div>
