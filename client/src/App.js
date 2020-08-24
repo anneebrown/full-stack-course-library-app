@@ -8,6 +8,7 @@ import NotFound from './NotFound';
 import CourseDetail from './CourseDetail';
 import CreateCourse from './CreateCourse';
 import UserSignUp from './UserSignUp';
+import UserSignIn from './UserSignIn';
 import withContext from './Context';
 
 const UserSignUpWithContext = withContext(UserSignUp);
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/courses/create" component={CreateCourse} />
         <Route exact path="/courses/:id" component={CourseDetail} />
         <Route exact path="/signup" component={UserSignUpWithContext} />
+        <Route exact path="/signin" component={UserSignIn} />
         <Route component={NotFound} />
       </Switch>
     </div>

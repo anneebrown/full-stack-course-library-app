@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Form from './Form';
-import Data from './Data';
+//import Data from './Data';
 import config from './config';
 
 export default class CreateCourse extends Component {
@@ -37,28 +37,28 @@ export default class CreateCourse extends Component {
                   id="title" 
                   name="title" 
                   type="text"
-                  value={title} 
+                  //value={} 
                   onChange={this.change} 
                   placeholder="Title" />
                 <input 
                   id="description" 
                   name="description" 
                   type="text"
-                  value={description} 
+                  //value={description} 
                   onChange={this.change} 
                   placeholder="Course Description" />
                 <input 
                   id="estimatedTime" 
                   name="estimatedTime"
                   type="text"
-                  value={estimatedTime} 
+                  //value={estimatedTime} 
                   onChange={this.change} 
                   placeholder="Hours" />
                 <input 
                   id="materialsNeeded" 
                   name="materialsNeeded"
                   type="text"
-                  value={materialsNeeded} 
+                  //value={materialsNeeded} 
                   onChange={this.change} 
                   placeholder="List materials..." />
               </React.Fragment>
