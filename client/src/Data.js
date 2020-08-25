@@ -3,7 +3,7 @@ import config from './config';
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
-    console.log(credentials)
+    console.log(credentials.emailAddress)
   
     const options = {
       method,
@@ -18,7 +18,8 @@ export default class Data {
 
     // Check if auth is required
     if (requiresAuth) {    
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
+      console.log(encodedCredentials)
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
 
