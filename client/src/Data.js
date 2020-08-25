@@ -3,6 +3,7 @@ import config from './config';
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
+    console.log(credentials)
   
     const options = {
       method,
@@ -25,6 +26,7 @@ export default class Data {
   }
 
   async getUser(emailAddress, password) {
+    console.log(emailAddress)
     const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
       return response.json().then(data => data);

@@ -36,6 +36,7 @@ export class Provider extends Component {
   
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
+    console.log(username);
     if (user !== null) {
       this.setState(() => {
         return {

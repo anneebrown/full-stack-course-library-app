@@ -32,14 +32,14 @@ export default class UserSignIn extends Component {
                   id="emailAddress" 
                   name="emailAddress" 
                   type="text"
-                  value={emailAddress} 
+                  //value={emailAddress} 
                   onChange={this.change} 
                   placeholder="Email Address" />
                 <input 
                   id="password" 
                   name="password"
                   type="password"
-                  value={password} 
+                  //value={password} 
                   onChange={this.change} 
                   placeholder="Password" />                
               </React.Fragment>
@@ -54,6 +54,9 @@ export default class UserSignIn extends Component {
 
   change = (event) => {
     const name = event.target.name;
+    // if (event.target.id == 'emailAddress') {
+    //   this.setState({emailAddress: event.target.value})
+    // }
     const value = event.target.value;
 
     this.setState(() => {
@@ -66,9 +69,10 @@ export default class UserSignIn extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const { username, password } = this.state;
+    const { emailAddress, password } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    context.actions.signIn(username, password)
+    console.log(this.state)
+    context.actions.signIn(emailAddress, password)
       .then( user => {
         if (user === null) {
           this.setState(() => {
@@ -76,7 +80,7 @@ export default class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          console.log(`SUCCESS! ${username} is now signed in!`);
+          console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })
       .catch( err => {

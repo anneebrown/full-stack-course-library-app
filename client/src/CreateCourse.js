@@ -15,10 +15,10 @@ export default class CreateCourse extends Component {
 
   render() {
     const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
+     // title,
+     // description,
+     // estimatedTime,
+     // materialsNeeded,
       errors,
     } = this.state;
 
