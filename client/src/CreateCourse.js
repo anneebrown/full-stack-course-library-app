@@ -5,14 +5,18 @@ import Form from './Form';
 //import config from './config';
 
 export default class CreateCourse extends Component {
-  state = {
-    title: '',
-    description: '',
-    estimatedTime: '',
-    materialsNeeded: '',
-    userId: '',
-    errors: [],
-  }
+  
+  constructor(){
+    super();
+    this.state = {
+      title: undefined,
+      description: undefined,
+      estimatedTime: undefined,
+      materialsNeeded: undefined,
+      userId: undefined,
+      errors: [],
+    }
+}
 
   render() {
     const {
@@ -22,6 +26,8 @@ export default class CreateCourse extends Component {
      // materialsNeeded,
       errors,
     } = this.state;
+
+    let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
       <div className="bounds course--detail">
@@ -34,6 +40,7 @@ export default class CreateCourse extends Component {
             submitButtonText="Create Course"
             elements={() => (
               <React.Fragment>
+              <p>{errorsToRender}</p>
                 <input 
                   id="title" 
                   name="title" 
@@ -73,16 +80,16 @@ export default class CreateCourse extends Component {
     const { context } = this.props;
     const userId = context.authenticatedUser.user[0].id;
     this.setState({userId: userId});
-    if(event.target.id == 'title'){
+    if(event.target.id === 'title'){
       this.setState({title: event.target.value})
     }
-    if(event.target.id == 'description'){
+    if(event.target.id === 'description'){
       this.setState({description: event.target.value})
     }
-    if(event.target.id == 'estimatedTime'){
+    if(event.target.id === 'estimatedTime'){
       this.setState({estimatedTime: event.target.value})
     }
-    if(event.target.id == 'materialsNeeded'){
+    if(event.target.id === 'materialsNeeded'){
       this.setState({materialsNeeded: event.target.value})
     }
     //const value = event.target.value;
@@ -120,20 +127,25 @@ export default class CreateCourse extends Component {
     console.log(course)
   
     context.data.createCourse(course, credentials)
-    // .then( errors => {
-    // if (errors.length) {
-    //     this.setState({ errors });
-    // } else {
-    //     console.log('course successfully created')
-    //     .then(() => {
-    //         this.props.history.push('/');    
-    //     });
-    // }
-    // })  
-    // .catch( err => { // handle rejected promises
-    // console.log(err);
-    // this.props.history.push('/error'); // push to history stack
-    // });
+     .then( errors => {
+      if (errors.length) {
+        //console.log(errors)
+        let errorTest = [];
+        for ( let i = 0; i < errors.length; i ++) {
+          errorTest.push(errors[i].message)
+        }
+        this.setState({ errors: errorTest });
+        console.log(this.state.errors)
+      } else {
+        //console.log(emailAddress)
+        console.log(`course has been successfully created!`)
+        this.props.history.push('/')
+      }
+    })  
+    .catch( err => { // handle rejected promises
+      console.log(err);
+      this.props.history.push('/error'); // push to history stack
+    });
   }
 
 

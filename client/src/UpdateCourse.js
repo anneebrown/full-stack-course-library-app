@@ -6,32 +6,39 @@ import axios from 'axios';
 //import config from './config';
 
 export default class UpdateCourse extends Component {
-  state = {
-    id: '',
-    title: '',
-    description: '',
-    estimatedTime: '',
-    materialsNeeded: '',
-    userId: '',
+  constructor() {
+    super();
+    this.state = {
+    id: undefined,
+    title: undefined,
+    description: undefined,
+    estimatedTime: undefined,
+    materialsNeeded: undefined,
+    userId: undefined,
     errors: [],
   }
+}
 
-    // //gets the course from the api
-    // retrieveCourses() {
-    //     axios.get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
-    //     .then(response => this.setState({
-    //         id: response.data.course.id, 
-    //         title: response.data.course.title,
-    //         description: response.data.course.description,
-    //         estimatedTime: response.data.course.estimatedTime,
-    //         materialsNeeded: response.data.course.materialsNeeded
-    //     }),
-    //         console.log(this.state)
-    //     )
-    //     .catch(error => {
-    //         console.log('Error fetching and parsing data', error);
-    //     });    
-    //   } 
+    //gets the course from the api
+    retrieveCourses() {
+        axios.get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
+        .then(response => this.setState({
+            id: response.data.course.id, 
+            // title: response.data.course.title,
+            // description: response.data.course.description,
+            // estimatedTime: response.data.course.estimatedTime,
+            // materialsNeeded: response.data.course.materialsNeeded
+        }),
+            console.log(this.state)
+        )
+        .catch(error => {
+            console.log('Error fetching and parsing data', error);
+        });    
+      } 
+
+    componentDidMount(){
+        this.retrieveCourses();
+    }
 
 
   render() {
@@ -42,6 +49,8 @@ export default class UpdateCourse extends Component {
      // materialsNeeded,
       errors,
     } = this.state;
+
+    let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
       <div className="bounds course--detail">
@@ -54,6 +63,7 @@ export default class UpdateCourse extends Component {
             submitButtonText="Update Course"
             elements={() => (
               <React.Fragment>
+              <p>{errorsToRender}</p>
                 <input 
                   id="title" 
                   name="title" 
@@ -94,16 +104,16 @@ export default class UpdateCourse extends Component {
     const userId = context.authenticatedUser.user[0].id;
     this.setState({userId: userId});
     this.setState({id: this.props.match.params.id})
-    if(event.target.id == 'title'){
+    if(event.target.id === 'title'){
       this.setState({title: event.target.value})
     }
-    if(event.target.id == 'description'){
+    if(event.target.id === 'description'){
       this.setState({description: event.target.value})
     }
-    if(event.target.id == 'estimatedTime'){
+    if(event.target.id === 'estimatedTime'){
       this.setState({estimatedTime: event.target.value})
     }
-    if(event.target.id == 'materialsNeeded'){
+    if(event.target.id === 'materialsNeeded'){
       this.setState({materialsNeeded: event.target.value})
     }
     //const value = event.target.value;
@@ -143,20 +153,29 @@ export default class UpdateCourse extends Component {
     console.log(course)
   
     context.data.updateCourse(course, credentials)
-    // .then( errors => {
-    // if (errors.length) {
-    //     this.setState({ errors });
-    // } else {
-    //     console.log('course successfully updated')
-    //     .then(() => {
-    //         this.props.history.push('/');    
-    //     });
-    // }
-    // })  
-    // .catch( err => { // handle rejected promises
-    // console.log(err);
-    // this.props.history.push('/error'); // push to history stack
-    // });
+      .then( errors => {
+        if (errors.length) {
+          //console.log(errors)
+          let errorTest = [];
+          for ( let i = 0; i < errors.length; i ++) {
+            errorTest.push(errors[i].msg + ': ' + errors[i].param)
+          }
+          this.setState({ errors: errorTest });
+          console.log(this.state.errors)
+        } else {
+          //console.log(emailAddress)
+          console.log(`course has been successfully updated!`)
+          this.props.history.push('/courses/' + course.id)
+            // .then(() => {
+            //   this.props.history.push('/');    
+            // });
+        }
+      })  
+      .catch( err => { // handle rejected promises
+        console.log(err);
+        this.props.history.push('/error'); // push to history stack
+      });
+  
   }
 
 

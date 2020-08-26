@@ -8,10 +8,10 @@ export default class UserSignUp extends Component {
   constructor(){
     super();
     this.state = {
-    // firstName: ,
-    // lastName: ,
-    // emailAddress: ,
-    // password: ,
+    firstName: undefined,
+    lastName: undefined,
+    emailAddress: undefined,
+    password: undefined,
     errors: [],
   }
 }
@@ -78,14 +78,27 @@ export default class UserSignUp extends Component {
   }
 
   change = (event) => {
-    const firstName = event.target.name;
-    const value = event.target.value;
+    if(event.target.id === 'firstName'){
+      this.setState({firstName: event.target.value})
+    }
+    if(event.target.id === 'lastName'){
+      this.setState({lastName: event.target.value})
+    }
+    if(event.target.id === 'emailAddress'){
+      this.setState({emailAddress: event.target.value})
+    }
+    if(event.target.id === 'password'){
+      this.setState({password: event.target.value})
+    }
 
-    this.setState(() => {
-      return {
-        [firstName]: value
-      };
-    });
+    // const firstName = event.target.name;
+    // const value = event.target.value;
+
+    // this.setState(() => {
+    //   return {
+    //     [firstName]: value
+    //   };
+    // });
   }
 
   submit = () => {
