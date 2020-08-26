@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 //import { Link } from 'react-router-dom';
 import Form from './Form';
+import axios from 'axios';
 //import Data from './Data';
 //import config from './config';
 
-export default class CreateCourse extends Component {
+export default class UpdateCourse extends Component {
   state = {
+    id: '',
     title: '',
     description: '',
     estimatedTime: '',
@@ -13,6 +15,24 @@ export default class CreateCourse extends Component {
     userId: '',
     errors: [],
   }
+
+    // //gets the course from the api
+    // retrieveCourses() {
+    //     axios.get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
+    //     .then(response => this.setState({
+    //         id: response.data.course.id, 
+    //         title: response.data.course.title,
+    //         description: response.data.course.description,
+    //         estimatedTime: response.data.course.estimatedTime,
+    //         materialsNeeded: response.data.course.materialsNeeded
+    //     }),
+    //         console.log(this.state)
+    //     )
+    //     .catch(error => {
+    //         console.log('Error fetching and parsing data', error);
+    //     });    
+    //   } 
+
 
   render() {
     const {
@@ -26,12 +46,12 @@ export default class CreateCourse extends Component {
     return (
       <div className="bounds course--detail">
         <div className="grid-66">
-          <h1>Create a new Course</h1>
+          <h1>Update this Course</h1>
           <Form 
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
-            submitButtonText="Create Course"
+            submitButtonText="Update Course"
             elements={() => (
               <React.Fragment>
                 <input 
@@ -73,6 +93,7 @@ export default class CreateCourse extends Component {
     const { context } = this.props;
     const userId = context.authenticatedUser.user[0].id;
     this.setState({userId: userId});
+    this.setState({id: this.props.match.params.id})
     if(event.target.id == 'title'){
       this.setState({title: event.target.value})
     }
@@ -102,14 +123,16 @@ export default class CreateCourse extends Component {
     //console.log(authUser.user[0].userId)
 
     const {
+      id,
       title,
       description,
       estimatedTime,
       materialsNeeded, 
     } = this.state; 
 
-    // New course payload
+    // update course payload
     const course = {
+      id, 
       title,
       description,
       estimatedTime,
@@ -119,12 +142,12 @@ export default class CreateCourse extends Component {
 
     console.log(course)
   
-    context.data.createCourse(course, credentials)
+    context.data.updateCourse(course, credentials)
     // .then( errors => {
     // if (errors.length) {
     //     this.setState({ errors });
     // } else {
-    //     console.log('course successfully created')
+    //     console.log('course successfully updated')
     //     .then(() => {
     //         this.props.history.push('/');    
     //     });

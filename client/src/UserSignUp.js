@@ -4,13 +4,17 @@ import Form from './Form';
 //import config from './config';
 
 export default class UserSignUp extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    emailAddress: '',
-    password: '',
+  
+  constructor(){
+    super();
+    this.state = {
+    // firstName: ,
+    // lastName: ,
+    // emailAddress: ,
+    // password: ,
     errors: [],
   }
+}
 
   render() {
     const {
@@ -102,7 +106,9 @@ export default class UserSignUp extends Component {
     context.data.createUser(user)
       .then( errors => {
         if (errors.length) {
-          this.setState({ errors });
+          errors.map(error => this.setState({errors: error.message}))
+          //this.setState({ errors });
+          console.log(this.state.errors)
         } else {
           console.log(emailAddress)
           console.log(`${firstName} is successfully signed up and authenticated!`);

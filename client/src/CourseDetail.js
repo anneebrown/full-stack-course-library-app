@@ -33,15 +33,36 @@ export default class CourseDetail extends Component {
   }
 
   render() {
-    console.log(this.state.course)
+    const { context } = this.props;
+    const authUser = context.authenticatedUser;
+    console.log(this.state.course.userId)
     //let materialsSource = `<li>${this.state.course.materialsNeeded}</li>`;
     return (
       <div className="bounds">
               <div>
         <div className="actions--bar">
           <div className="bounds">
-            <div className="grid-100"><span><a className="button" href={'/courses/' + this.props.match.params.id + '/update'}>Update Course</a><a className="button" href="/">Delete Course</a></span><a
-                className="button button-secondary" href="/">Return to List</a></div>
+          <div className="grid-100">
+          {authUser ?
+             authUser.user[0].id === this.state.course.userId ?
+              <React.Fragment>
+              <span><a className="button" href={'/courses/' + this.props.match.params.id + '/update'}> Update Course</a>
+              <button className="button" onClick={this.submit} >Delete Course</button></span>
+              <a className="button button-secondary" href="/">Return to List</a>
+              </React.Fragment>
+              : 
+              <React.Fragment>
+                <a className="button button-secondary" href="/">Return to List</a>
+              </React.Fragment>
+            :    
+              <React.Fragment>
+                <p>Is this your course? <a href='/signin'>Sign in</a> to make changes!</p>
+                <a className="button button-secondary" href="/">Return to List</a>
+              </React.Fragment>
+            }
+          </div>
+            {/* <div className="grid-100"><span><a className="button" href={'/courses/' + this.props.match.params.id + '/update'}>Update Course</a><button className="button" onClick={this.submit} >Delete Course</button></span><a
+                className="button button-secondary" href="/">Return to List</a></div> */}
           </div>
         </div>
         <div className="bounds course--detail">
@@ -77,4 +98,27 @@ export default class CourseDetail extends Component {
       </div>
     )
   };
+ 
+
+  //submit handler for my delete button
+  submit = () => {
+    //getting the course and the data for the currently signed in user
+    //only course owners can delete courses
+    const { context } = this.props;
+    const emailAddress = context.authenticatedUser.user[0].emailAddress;
+    const password = context.password;
+    const credentials = {emailAddress, password}
+    let course = this.state.course;
+  
+
+
+   context.data.deleteCourse(course, credentials)
+    .then( 
+       this.props.history.push('/'),
+       //refresh is necessary so the course list doesn't display the delete course anymore
+       window.location.reload(true),
+       console.log(`SUCCESS!`)
+   )
+  
+  }
 }
