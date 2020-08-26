@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import logo from './rickastleydancing.gif';
 
+//renders if the route wasn't found
 export default class NotFound extends Component {
     render() {
         return(

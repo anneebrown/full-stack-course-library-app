@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-//import logo from './rickastleydancing.gif';
 
+//renders a short error message if there was an unexpected error
 export default class NotFound extends Component {
     render() {
         return(

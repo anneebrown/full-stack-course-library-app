@@ -53,20 +53,16 @@ export default class UserSignIn extends Component {
   }
 
   change = (event) => {
-    const name = event.target.name;
-    // if (event.target.id == 'emailAddress') {
-    //   this.setState({emailAddress: event.target.value})
-    // }
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
+   //sets state depending on entered values
+    if (event.target.id === 'emailAddress') {
+      this.setState({emailAddress: event.target.value})
+    }
+    if (event.target.id === 'password') {
+        this.setState({password: event.target.value})
+      }
   }
 
-
+  //upon submit, this signs the user in or returns errors
   submit = () => {
     const { context } = this.props;
     const { emailAddress, password } = this.state;
@@ -89,7 +85,8 @@ export default class UserSignIn extends Component {
       })
 
   }
-
+ 
+  //if the user changes their mind, this returns them to the main page
   cancel = () => {
     this.props.history.push('/');
   }

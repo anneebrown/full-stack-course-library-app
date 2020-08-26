@@ -1,6 +1,8 @@
 import config from './config';
 
 export default class Data {
+
+  //base method for all api calls
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
     //console.log(credentials.user[0].password)
@@ -27,6 +29,7 @@ export default class Data {
     return fetch(url, options);
   }
 
+  //getUser function used while signing in and to verify the authenticated user
   async getUser(emailAddress, password) {
     console.log(emailAddress)
     const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
@@ -41,6 +44,7 @@ export default class Data {
     }
   }
   
+  //creates a user by making a post request to the api's users endpoint
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
@@ -56,6 +60,7 @@ export default class Data {
     }
   }
 
+  //creates a course by making a post request to the api's courses endpoint
   async createCourse(course, authUser) {
     console.log(authUser)
     const response = await this.api('/courses', 'POST', course, true, authUser);
@@ -72,6 +77,7 @@ export default class Data {
     }
   }
 
+  //updates a course by making a put request to the api's courses/:id endpoint
   async updateCourse(course, authUser) {
     //console.log(authUser)
     const response = await this.api('/courses/' + course.id, 'PUT', course, true, authUser);
@@ -88,6 +94,7 @@ export default class Data {
     }
   }
 
+  //deletes a course by making a delete request
   async deleteCourse(course, authUser) {
     //console.log(authUser)
     const response = await this.api('/courses/' + course.id, 'DELETE', course, true, authUser);

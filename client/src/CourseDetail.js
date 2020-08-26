@@ -1,11 +1,11 @@
 //import statements
-//config
 import React, {Component} from 'react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown";
 
 //class or function declaration for the courses list, including export statement
 export default class CourseDetail extends Component {
+  //state declaration
   constructor() {
     super();
     this.state = {
@@ -13,7 +13,7 @@ export default class CourseDetail extends Component {
       user: []
     };
   } 
-
+  //console log helper function to help with debugging during development 
   consoleLog(){
   console.log(this.props.match.params)
   }
@@ -26,28 +26,26 @@ export default class CourseDetail extends Component {
         console.log('Error fetching and parsing data', error);
     });    
   } 
-
+  
   componentDidMount() {
      this.retrieveCourses();
      //this.consoleLog();
   }
 
   render() {
+    //gets context, authenticated user, sets sources for materialsNeeded and description to later be used for ReactMarkdown
     const { context } = this.props;
     const authUser = context.authenticatedUser;
-    console.log(typeof this.state.course.materialsNeeded)
+    //console.log(typeof this.state.course.materialsNeeded)
     let materialsSource = this.state.course.materialsNeeded; 
     let descSource = this.state.course.description;
-    // for (let i = 0; i < this.state.course.materialsNeeded; i++) {
-    //   //materialsSource = <li>{this.state.course.materialsNeeded[0]}</li>
-    //   console.log(this.state.course.materialsNeeded[i])
-    // }
     return (
       <div className="bounds">
               <div>
         <div className="actions--bar">
           <div className="bounds">
           <div className="grid-100">
+          {/* returns different buttons depending on if there is an authenticator user and if they are the course owner */}
           {authUser ?
              authUser.user[0].id === this.state.course.userId ?
               <React.Fragment>
@@ -66,8 +64,6 @@ export default class CourseDetail extends Component {
               </React.Fragment>
             }
           </div>
-            {/* <div className="grid-100"><span><a className="button" href={'/courses/' + this.props.match.params.id + '/update'}>Update Course</a><button className="button" onClick={this.submit} >Delete Course</button></span><a
-                className="button button-secondary" href="/">Return to List</a></div> */}
           </div>
         </div>
         <div className="bounds course--detail">
@@ -79,7 +75,6 @@ export default class CourseDetail extends Component {
             </div>
             <div className="course--description">
                <ReactMarkdown source={descSource} />
-              {/* <p>{this.state.course.description}</p> */}
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -93,7 +88,6 @@ export default class CourseDetail extends Component {
                   <h4>Materials Needed</h4>
                   <ul>
                     <ReactMarkdown source={materialsSource} />
-                    {/* <li>{this.state.course.materialsNeeded}</li> */}
                   </ul>
                 </li>
               </ul>

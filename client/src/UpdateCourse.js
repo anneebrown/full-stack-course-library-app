@@ -23,6 +23,7 @@ export default class UpdateCourse extends Component {
     retrieveCourses() {
         axios.get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
         .then(response => this.setState({
+            //sets the id state so put requests can always be made to the correct api endpoint
             id: response.data.course.id, 
             // title: response.data.course.title,
             // description: response.data.course.description,
@@ -50,6 +51,7 @@ export default class UpdateCourse extends Component {
       errors,
     } = this.state;
 
+    //maps over the errors array to create a list
     let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
@@ -100,6 +102,7 @@ export default class UpdateCourse extends Component {
   }
 
   change = (event) => {
+    //sets values for state depending on the user entering information
     const { context } = this.props;
     const userId = context.authenticatedUser.user[0].id;
     this.setState({userId: userId});
@@ -119,6 +122,7 @@ export default class UpdateCourse extends Component {
     //const value = event.target.value;
   }
 
+  //submits the put request 
   submit = () => {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.user[0].emailAddress;

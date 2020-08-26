@@ -5,7 +5,8 @@ import Cookies from 'js-cookie';
 const Context = React.createContext(); 
 
 export class Provider extends Component {
-
+ 
+  //persists user information or is set to null by default if there is no authenticated user
   state = {
     authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
     password: Cookies.getJSON('password') || null,
@@ -16,6 +17,7 @@ export class Provider extends Component {
     this.data = new Data();
   }
 
+  //sets and returns the values accessible to the entire app
   render() {
     const { authenticatedUser, password } = this.state;
     console.log(this.state)
@@ -24,7 +26,7 @@ export class Provider extends Component {
       authenticatedUser,
       password,
       data: this.data,
-      actions: {// Add the 'actions' property and object
+      actions: {
       signIn: this.signIn,
       signOut: this.signOut
       }
@@ -36,7 +38,7 @@ export class Provider extends Component {
     );
   }
 
-  
+  //method to sign into the app, calls the getUser method from Data.js which makes a get request to the api
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
     console.log(password);
@@ -48,13 +50,14 @@ export class Provider extends Component {
         };
       });
       console.log(this.state.password)
-      // Set cookie
+      // Set cookies so users can stay logged in and authenticated even when refreshing the browser or closing the tab, valid for 1 day
       Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1});
       Cookies.set('password', JSON.stringify(password), { expires: 1});
     }
     return user;
   }
 
+  //signs the user out of the app
   signOut = () => {
     this.setState(() => {
       return {

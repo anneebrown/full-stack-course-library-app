@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
+//import statements for components
 import Courses from './Courses';
 import Header from './Header';
 import NotFound from './NotFound';
@@ -15,6 +16,7 @@ import Error from './Error';
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 
+//makes context available for all components/routes
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const HeaderWithContext = withContext(Header);

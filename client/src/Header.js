@@ -1,27 +1,15 @@
-// import React from 'react';
-
-// const Header = () => {
-//     return(
-//         <div className="header">
-//         <div className="bounds">
-//           <a className="header--logo" href="/">Courses</a>
-//           <nav><a className="signup" href="/signup">Sign Up</a><a className="signin" href="/signin">Sign In</a></nav>
-//         </div>
-//       </div>
-//     )
-// }
-
-// export default Header; 
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default class Header extends React.PureComponent {
   render() {
+    //header needs access to the authenticated user to display the correct buttons
     const { context } = this.props;
     const authUser = context.authenticatedUser;
     //console.log(authUser.user[0].firstName)
 
+    //if there is an authenticated users, they are welcomed and given the option to signout, if there isn't they can sign up or in
+    //"Courses" is a link to the main page of the app for an additional way of navigating
     return (
       <div className="header">
         <div className="bounds">

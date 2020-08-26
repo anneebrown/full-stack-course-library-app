@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
 import Form from './Form';
-//import Data from './Data';
-//import config from './config';
 
 export default class CreateCourse extends Component {
   
+  //state declaration
   constructor(){
     super();
     this.state = {
@@ -27,6 +25,7 @@ export default class CreateCourse extends Component {
       errors,
     } = this.state;
 
+    //if there are errors in the errors array, they are mapped over to display a list
     let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
@@ -76,6 +75,7 @@ export default class CreateCourse extends Component {
     );
   }
 
+  //stores the entered form values in state, sets a userId depending on the authenticated user
   change = (event) => {
     const { context } = this.props;
     const userId = context.authenticatedUser.user[0].id;
@@ -95,6 +95,7 @@ export default class CreateCourse extends Component {
     //const value = event.target.value;
   }
 
+  //submit handler to create a new course, needs the authenticated user to pass to the create course function in Data.js as only signed in users can create courses
   submit = () => {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.user[0].emailAddress;

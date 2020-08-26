@@ -1,5 +1,6 @@
 import React from 'react';
 
+//creates a form template
 export default (props) => {
   const {
     cancel,
@@ -41,9 +42,7 @@ function ErrorsDisplay({ errors }) {
       <div>
         <h2 className="validation--errors--label">Validation errors</h2>
         <div className="validation-errors">
-          <ul>
-            {/* {errors.map((error, i) => <li key={i}>{error}</li>)} */}
-          </ul>
+        <br />
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Consumer } from './Context';
 
+//builds the basics to protect private routes, if the user is authenticated, they may proceed, if not, they are redirected to sign in 
 export default ({ component: Component, ...rest }) => {
   return (
     <Consumer>

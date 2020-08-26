@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
-//import config from './config';
 
 export default class UserSignUp extends Component {
   
@@ -25,6 +24,7 @@ export default class UserSignUp extends Component {
       errors,
     } = this.state;
 
+    //errors array is mapped over and a list of errors is produced
     let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
@@ -78,6 +78,7 @@ export default class UserSignUp extends Component {
   }
 
   change = (event) => {
+    //sets state depending on values entered
     if(event.target.id === 'firstName'){
       this.setState({firstName: event.target.value})
     }
@@ -90,15 +91,6 @@ export default class UserSignUp extends Component {
     if(event.target.id === 'password'){
       this.setState({password: event.target.value})
     }
-
-    // const firstName = event.target.name;
-    // const value = event.target.value;
-
-    // this.setState(() => {
-    //   return {
-    //     [firstName]: value
-    //   };
-    // });
   }
 
   submit = () => {
@@ -119,6 +111,7 @@ export default class UserSignUp extends Component {
       password,
     };
 
+    //creates the user in the database or returns errors
     context.data.createUser(user)
       .then( errors => {
         if (errors.length) {
