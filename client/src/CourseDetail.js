@@ -2,7 +2,7 @@
 //config
 import React, {Component} from 'react';
 import axios from 'axios';
-//import ReactMarkdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
 
 //class or function declaration for the courses list, including export statement
 export default class CourseDetail extends Component {
@@ -35,8 +35,13 @@ export default class CourseDetail extends Component {
   render() {
     const { context } = this.props;
     const authUser = context.authenticatedUser;
-    console.log(this.state.course.userId)
-    //let materialsSource = `<li>${this.state.course.materialsNeeded}</li>`;
+    console.log(typeof this.state.course.materialsNeeded)
+    let materialsSource = this.state.course.materialsNeeded; 
+    let descSource = this.state.course.description;
+    // for (let i = 0; i < this.state.course.materialsNeeded; i++) {
+    //   //materialsSource = <li>{this.state.course.materialsNeeded[0]}</li>
+    //   console.log(this.state.course.materialsNeeded[i])
+    // }
     return (
       <div className="bounds">
               <div>
@@ -73,7 +78,8 @@ export default class CourseDetail extends Component {
               <p>By {this.state.user.firstName} {this.state.user.lastName}</p>
             </div>
             <div className="course--description">
-              <p>{this.state.course.description}</p>
+               <ReactMarkdown source={descSource} />
+              {/* <p>{this.state.course.description}</p> */}
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -86,8 +92,8 @@ export default class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    {/* <ReactMarkdown source={materialsSource} /> */}
-                    <li>{this.state.course.materialsNeeded}</li>
+                    <ReactMarkdown source={materialsSource} />
+                    {/* <li>{this.state.course.materialsNeeded}</li> */}
                   </ul>
                 </li>
               </ul>
