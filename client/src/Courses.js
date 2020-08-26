@@ -39,6 +39,11 @@ export default class Courses extends Component {
      this.pushCourses();
   }
 
+  componentDidUpdate() {
+    this.retrieveCourses();
+    this.pushCourses();
+  }
+
   //JSX to display the courses list and the button to create a new course
   render() {
     console.log(this.state.courses)

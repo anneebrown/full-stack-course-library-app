@@ -116,7 +116,7 @@ export default class CourseDetail extends Component {
     .then( 
        this.props.history.push('/'),
        //refresh is necessary so the course list doesn't display the delete course anymore
-       window.location.reload(true),
+       window.location.reload(),
        console.log(`SUCCESS!`)
    )
   
