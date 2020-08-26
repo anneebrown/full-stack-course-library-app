@@ -25,6 +25,8 @@ export default class UserSignUp extends Component {
       errors,
     } = this.state;
 
+    let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
+
     return (
       <div className="bounds">
         <div className="grid-33 centered signin">
@@ -36,6 +38,7 @@ export default class UserSignUp extends Component {
             submitButtonText="Sign Up"
             elements={() => (
               <React.Fragment>
+               <p>{errorsToRender}</p>
                 <input 
                   id="firstName" 
                   name="firstName" 
@@ -106,8 +109,12 @@ export default class UserSignUp extends Component {
     context.data.createUser(user)
       .then( errors => {
         if (errors.length) {
-          errors.map(error => this.setState({errors: error.message}))
-          //this.setState({ errors });
+          //console.log(errors)
+          let errorTest = [];
+          for ( let i = 0; i < errors.length; i ++) {
+            errorTest.push(errors[i].message)
+          }
+          this.setState({ errors: errorTest });
           console.log(this.state.errors)
         } else {
           console.log(emailAddress)
