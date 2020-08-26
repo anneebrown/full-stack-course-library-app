@@ -9,12 +9,12 @@ export default class UpdateCourse extends Component {
   constructor() {
     super();
     this.state = {
-    id: undefined,
-    title: undefined,
-    description: undefined,
-    estimatedTime: undefined,
-    materialsNeeded: undefined,
-    userId: undefined,
+    id: '',
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    userId: '',
     errors: [],
   }
 }
@@ -25,10 +25,10 @@ export default class UpdateCourse extends Component {
         .then(response => this.setState({
             //sets the id state so put requests can always be made to the correct api endpoint
             id: response.data.course.id, 
-            // title: response.data.course.title,
-            // description: response.data.course.description,
-            // estimatedTime: response.data.course.estimatedTime,
-            // materialsNeeded: response.data.course.materialsNeeded
+            title: response.data.course.title,
+            description: response.data.course.description,
+            estimatedTime: response.data.course.estimatedTime,
+            materialsNeeded: response.data.course.materialsNeeded
         }),
             console.log(this.state)
         )
@@ -70,28 +70,28 @@ export default class UpdateCourse extends Component {
                   id="title" 
                   name="title" 
                   type="text"
-                  //value={} 
+                  value={this.state.title} 
                   onChange={this.change} 
                   placeholder="Title" />
                 <input 
                   id="description" 
                   name="description" 
                   type="text"
-                  //value={description} 
+                  value={this.state.description} 
                   onChange={this.change} 
                   placeholder="Course Description" />
                 <input 
                   id="estimatedTime" 
                   name="estimatedTime"
                   type="text"
-                  //value={estimatedTime} 
+                  value={this.state.estimatedTime} 
                   onChange={this.change} 
                   placeholder="Hours" />
                 <input 
                   id="materialsNeeded" 
                   name="materialsNeeded"
                   type="text"
-                  //value={materialsNeeded} 
+                  value={this.state.materialsNeeded} 
                   onChange={this.change} 
                   placeholder="List materials..." />
               </React.Fragment>
@@ -184,6 +184,6 @@ export default class UpdateCourse extends Component {
 
 
   cancel = () => {
-    this.props.history.push('/');
+    this.props.history.push('/courses/' + this.state.id);
   }
 }
