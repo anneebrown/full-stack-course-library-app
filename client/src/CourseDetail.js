@@ -51,7 +51,7 @@ export default class CourseDetail extends Component {
              authUser.user[0].id === this.state.course.userId ?
               <React.Fragment>
               <span><a className="button" href={'/courses/' + this.props.match.params.id + '/update'}> Update Course</a>
-              <button className="button" onClick={this.submit} href="/" >Delete Course</button></span>
+              <button className="button" onClick={this.submit} >Delete Course</button></span>
               <a className="button button-secondary" href="/">Return to List</a>
               </React.Fragment>
               : 
@@ -114,12 +114,11 @@ export default class CourseDetail extends Component {
 
 
    context.data.deleteCourse(course, credentials)
-    .then( 
-       this.props.history.push('/'),
+    .then( () => window.location.href = "/")
        //refresh is necessary so the course list doesn't display the delete course anymore
-       window.location.reload(),
-       console.log(`SUCCESS!`),
-   )
+       //window.location.href = '/',
+       //console.log(`SUCCESS!`)
+       
   
   }
 }
