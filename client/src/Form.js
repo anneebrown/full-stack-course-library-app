@@ -8,6 +8,7 @@ export default (props) => {
     submit,
     submitButtonText,
     elements,
+    buttonClass
   } = props;
 
   function handleSubmit(event) {
@@ -25,7 +26,7 @@ export default (props) => {
       <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()}
-        <div className="pad-bottom">
+        <div className={`${buttonClass} pad-bottom`}>
           <button className="button" type="submit">{submitButtonText}</button>
           <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
         </div>

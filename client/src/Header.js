@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Header extends React.PureComponent {
-  render() {
-    //header needs access to the authenticated user to display the correct buttons
-    const { context } = this.props;
+export default ({context}) => {
+  
     const authUser = context.authenticatedUser;
     //console.log(authUser.user[0].firstName)
 
@@ -17,7 +15,7 @@ export default class Header extends React.PureComponent {
           <nav>
           {authUser ?
               <React.Fragment>
-                <span>Welcome, {authUser.user[0].firstName}!</span>
+                <span>Welcome, {authUser.user[0].firstName} {authUser.user[0].lastName}!</span>
                 <Link className="signout" to="/signout">Sign Out</Link>
               </React.Fragment>
             :    
@@ -30,5 +28,5 @@ export default class Header extends React.PureComponent {
         </div>
       </div>
     );
-  }
+ // }
 };

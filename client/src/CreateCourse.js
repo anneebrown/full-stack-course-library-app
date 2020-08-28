@@ -24,54 +24,86 @@ export default class CreateCourse extends Component {
      // materialsNeeded,
       errors,
     } = this.state;
+    const { context } = this.props;
 
     //if there are errors in the errors array, they are mapped over to display a list
     let errorsToRender = this.state.errors.map(error => <li key={error}>{error}</li>)
 
     return (
-      <div className="bounds course--detail">
-        <div className="grid-66">
-          <h1>Create a new Course</h1>
+       <div className="bounds course--detail">
+          <h1>Create Course</h1>
           <Form 
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
             submitButtonText="Create Course"
+            buttonClass="grid-100"
             elements={() => (
               <React.Fragment>
+              <div>
               <p>{errorsToRender}</p>
-                <input 
-                  id="title" 
-                  name="title" 
-                  type="text"
-                  //value={} 
-                  onChange={this.change} 
-                  placeholder="Title" />
-                <input 
-                  id="description" 
-                  name="description" 
-                  type="text"
-                  //value={description} 
-                  onChange={this.change} 
-                  placeholder="Course Description" />
-                <input 
-                  id="estimatedTime" 
-                  name="estimatedTime"
-                  type="text"
-                  //value={estimatedTime} 
-                  onChange={this.change} 
-                  placeholder="Hours" />
-                <input 
-                  id="materialsNeeded" 
-                  name="materialsNeeded"
-                  type="text"
-                  //value={materialsNeeded} 
-                  onChange={this.change} 
-                  placeholder="List materials..." />
+              </div>
+              <form>
+                <div className="grid-66">
+                  <div className="course--header">
+                    <h4 className="course--label">Course</h4>
+                    <input 
+                      id="title" 
+                      name="title" 
+                      type="text"
+                      className="input-title course--title--input" 
+                      placeholder="Course title..."
+                      onChange={this.change}  />
+                  </div>
+                <p>By {context.authenticatedUser.user[0].firstName} {context.authenticatedUser.user[0].lastName}</p>
+                
+                <div>
+                  <div className="course--description">
+                    <textarea 
+                      id="description" 
+                      name="description" 
+                      type="text"
+                      onChange={this.change} 
+                      placeholder="Course Description" />
+                  </div>
+                  </div>
+                </div>
+                <div className="grid-25 grid-right">
+                  <div className="course--stats">
+                    <ul class="course--stats--list">
+                      <li class="course--stats--list--item">
+                      <h4>Estimated Time</h4>
+                  <div>
+                  <input 
+                    id="estimatedTime" 
+                    name="estimatedTime"
+                    type="text"
+                    className="course--time--input"
+                    onChange={this.change} 
+                    placeholder="Hours" />
+                </div>
+                </li>
+                <li className="course--stats--list--item">
+                  <h4>Materials Needed</h4>
+                  <textarea 
+                    id="materialsNeeded" 
+                    name="materialsNeeded"
+                    type="text"
+                    onChange={this.change} 
+                    placeholder="List materials..." />
+                    </li>
+                </ul>
+                </div>
+                </div>
+              </form>
               </React.Fragment>
-            )} />
+              
+            )} 
+
+           
+            />
         </div>
-      </div>
+      
     );
   }
 
